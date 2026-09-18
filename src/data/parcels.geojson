@@ -1,0 +1,375 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "GW-011",
+        "land_use": "Agriculture",
+        "area": "3.4 ha",
+        "area_bigha": "13.6 Bigha",
+        "district": "Gwalior",
+        "tehsil": "Morar",
+        "village": "Morar Rural",
+        "khasra_no": "138/1",
+        "title_status": "Clear Title",
+        "owner_category": "Private Freehold",
+        "change_type": "None Detected",
+        "change_percentage": "0%",
+        "confidence": "97%",
+        "priority": "NONE",
+        "verification_status": "Clean",
+        "detected_date": "04 Sep 2026",
+        "satellite_pass": "Sentinel-2 MSI",
+        "ndvi_score": 0.72,
+        "soil_moisture": "Optimal",
+        "centroid": [78.2235, 26.2215]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [78.2218, 26.2202],
+            [78.2251, 26.2204],
+            [78.2253, 26.2227],
+            [78.2219, 26.2229],
+            [78.2218, 26.2202]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "GW-012",
+        "land_use": "Agriculture",
+        "area": "2.8 ha",
+        "area_bigha": "11.2 Bigha",
+        "district": "Gwalior",
+        "tehsil": "Morar",
+        "village": "Morar Rural",
+        "khasra_no": "142/2",
+        "title_status": "Verified",
+        "owner_category": "Private Agricultural",
+        "change_type": "Agriculture → Built-up",
+        "change_percentage": "25%",
+        "confidence": "93%",
+        "priority": "HIGH",
+        "verification_status": "Pending Verification",
+        "detected_date": "18 Aug 2026",
+        "satellite_pass": "Sentinel-2 / Cartosat-3",
+        "ndvi_score": 0.38,
+        "soil_moisture": "Depleted (Concrete Base)",
+        "centroid": [78.2280, 26.2235]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [78.2260, 26.2221],
+            [78.2298, 26.2224],
+            [78.2301, 26.2248],
+            [78.2262, 26.2249],
+            [78.2260, 26.2221]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "GW-013",
+        "land_use": "Vacant",
+        "area": "1.9 ha",
+        "area_bigha": "7.6 Bigha",
+        "district": "Gwalior",
+        "tehsil": "Morar",
+        "village": "Sunarpura",
+        "khasra_no": "89/1",
+        "title_status": "Under Mutation",
+        "owner_category": "Gram Panchayat Commercial",
+        "change_type": "Vacant → Plotted Layout",
+        "change_percentage": "40%",
+        "confidence": "88%",
+        "priority": "MEDIUM",
+        "verification_status": "Potential Change Detected",
+        "detected_date": "29 Aug 2026",
+        "satellite_pass": "PlanetScope 3m",
+        "ndvi_score": 0.18,
+        "soil_moisture": "Dry",
+        "centroid": [78.2335, 26.2255]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [78.2315, 26.2242],
+            [78.2355, 26.2245],
+            [78.2356, 26.2268],
+            [78.2317, 26.2269],
+            [78.2315, 26.2242]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "GW-014",
+        "land_use": "Agriculture",
+        "area": "4.2 ha",
+        "area_bigha": "16.8 Bigha",
+        "district": "Gwalior",
+        "tehsil": "Morar",
+        "village": "Baraua",
+        "khasra_no": "205/3",
+        "title_status": "Clear Title",
+        "owner_category": "Private Joint Holding",
+        "change_type": "None Detected",
+        "change_percentage": "0%",
+        "confidence": "99%",
+        "priority": "NONE",
+        "verification_status": "Clean",
+        "detected_date": "06 Sep 2026",
+        "satellite_pass": "Sentinel-2 MSI",
+        "ndvi_score": 0.81,
+        "soil_moisture": "High (Canal Fed)",
+        "centroid": [78.2240, 26.2160]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [78.2215, 26.2145],
+            [78.2268, 26.2147],
+            [78.2265, 26.2178],
+            [78.2217, 26.2176],
+            [78.2215, 26.2145]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "GW-015",
+        "land_use": "Built-up",
+        "area": "1.1 ha",
+        "area_bigha": "4.4 Bigha",
+        "district": "Gwalior",
+        "tehsil": "Morar",
+        "village": "Morar Cantt Fringe",
+        "khasra_no": "44/A",
+        "title_status": "Verified",
+        "owner_category": "Municipal / Abadi",
+        "change_type": "Stable Built-up",
+        "change_percentage": "0%",
+        "confidence": "95%",
+        "priority": "NONE",
+        "verification_status": "Field Verified",
+        "detected_date": "01 Sep 2026",
+        "satellite_pass": "Cartosat-3 Ortho",
+        "ndvi_score": 0.12,
+        "soil_moisture": "Impermeable",
+        "centroid": [78.2175, 26.2275]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [78.2155, 26.2265],
+            [78.2195, 26.2267],
+            [78.2196, 26.2286],
+            [78.2157, 26.2285],
+            [78.2155, 26.2265]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "GW-016",
+        "land_use": "Water",
+        "area": "2.3 ha",
+        "area_bigha": "9.2 Bigha",
+        "district": "Gwalior",
+        "tehsil": "Morar",
+        "village": "Mehra Talab",
+        "khasra_no": "312",
+        "title_status": "Verified",
+        "owner_category": "State Water Resources (Talab)",
+        "change_type": "Water → Soil Filling / Encroachment",
+        "change_percentage": "32%",
+        "confidence": "91%",
+        "priority": "HIGH",
+        "verification_status": "Potential Change Detected",
+        "detected_date": "22 Aug 2026",
+        "satellite_pass": "Sentinel-2 MSI",
+        "ndvi_score": 0.45,
+        "soil_moisture": "Saturated Wetland",
+        "centroid": [78.2325, 26.2190]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [78.2305, 26.2175],
+            [78.2346, 26.2178],
+            [78.2348, 26.2205],
+            [78.2306, 26.2204],
+            [78.2305, 26.2175]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "GW-017",
+        "land_use": "Agriculture",
+        "area": "3.1 ha",
+        "area_bigha": "12.4 Bigha",
+        "district": "Gwalior",
+        "tehsil": "Morar",
+        "village": "Sunarpura East",
+        "khasra_no": "194/2",
+        "title_status": "Clear Title",
+        "owner_category": "Private Agriculture",
+        "change_type": "None Detected",
+        "change_percentage": "0%",
+        "confidence": "98%",
+        "priority": "NONE",
+        "verification_status": "Clean",
+        "detected_date": "08 Sep 2026",
+        "satellite_pass": "Sentinel-2 MSI",
+        "ndvi_score": 0.76,
+        "soil_moisture": "Good",
+        "centroid": [78.2395, 26.2215]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [78.2372, 26.2202],
+            [78.2418, 26.2204],
+            [78.2420, 26.2229],
+            [78.2374, 26.2228],
+            [78.2372, 26.2202]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "GW-018",
+        "land_use": "Forest",
+        "area": "5.6 ha",
+        "area_bigha": "22.4 Bigha",
+        "district": "Gwalior",
+        "tehsil": "Gird",
+        "village": "Gwalior Fort Ridge North",
+        "khasra_no": "501/RF",
+        "title_status": "Verified",
+        "owner_category": "Reserved Forest Buffer",
+        "change_type": "Forest → Canopy Thinning",
+        "change_percentage": "18%",
+        "confidence": "85%",
+        "priority": "MEDIUM",
+        "verification_status": "Potential Change Detected",
+        "detected_date": "14 Aug 2026",
+        "satellite_pass": "Landsat-9 OLI",
+        "ndvi_score": 0.52,
+        "soil_moisture": "Rocky-Moderate",
+        "centroid": [78.1720, 26.2425]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [78.1690, 26.2395],
+            [78.1752, 26.2405],
+            [78.1756, 26.2450],
+            [78.1692, 26.2445],
+            [78.1690, 26.2395]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "GW-019",
+        "land_use": "Built-up",
+        "area": "1.7 ha",
+        "area_bigha": "6.8 Bigha",
+        "district": "Gwalior",
+        "tehsil": "Gwalior City",
+        "village": "Maharaj Bada Sector",
+        "khasra_no": "77/1",
+        "title_status": "Disputed",
+        "owner_category": "Commercial Mixed",
+        "change_type": "Unauthorized Vertical Expansion",
+        "change_percentage": "15%",
+        "confidence": "89%",
+        "priority": "MEDIUM",
+        "verification_status": "Pending Verification",
+        "detected_date": "10 Aug 2026",
+        "satellite_pass": "Cartosat-3 Stereo",
+        "ndvi_score": 0.08,
+        "soil_moisture": "Paved",
+        "centroid": [78.1810, 26.2130]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [78.1790, 26.2118],
+            [78.1832, 26.2120],
+            [78.1834, 26.2142],
+            [78.1792, 26.2141],
+            [78.1790, 26.2118]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parcel_id": "GW-020",
+        "land_use": "Agriculture",
+        "area": "2.5 ha",
+        "area_bigha": "10.0 Bigha",
+        "district": "Gwalior",
+        "tehsil": "Morar",
+        "village": "Girwai Khurd",
+        "khasra_no": "220/1",
+        "title_status": "Under Mutation",
+        "owner_category": "Private Agricultural",
+        "change_type": "None Detected",
+        "change_percentage": "0%",
+        "confidence": "96%",
+        "priority": "NONE",
+        "verification_status": "Clean",
+        "detected_date": "05 Sep 2026",
+        "satellite_pass": "Sentinel-2 MSI",
+        "ndvi_score": 0.74,
+        "soil_moisture": "Adequate",
+        "centroid": [78.2435, 26.2300]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [78.2415, 26.2288],
+            [78.2458, 26.2290],
+            [78.2460, 26.2315],
+            [78.2418, 26.2314],
+            [78.2415, 26.2288]
+          ]
+        ]
+      }
+    }
+  ]
+}
