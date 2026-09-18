@@ -44,7 +44,7 @@ export const AreaContextOverlay: React.FC<AreaContextOverlayProps> = ({
     : 'Inspecting location…';
 
   return (
-    <div className="absolute bottom-14 left-4 z-30 w-[340px] pointer-events-auto animate-in slide-in-from-bottom-2 duration-200">
+    <div className="absolute bottom-14 right-4 z-30 w-[340px] pointer-events-auto animate-in slide-in-from-bottom-2 duration-200">
       {/* Card */}
       <div className="bg-slate-900/96 backdrop-blur-xl border border-slate-700/80 rounded-xl shadow-2xl shadow-black/60 overflow-hidden">
 

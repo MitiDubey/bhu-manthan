@@ -19,6 +19,7 @@ import type {
   TimelineYear,
   PolicySimulationParams,
   UnconnectedAreaInspectionResult,
+  GeographicInspectionRequest,
 } from './types/parcel';
 import { GWALIOR_PRESETS } from './utils/mapUtils';
 import { parcelsGeoJSONData } from './data/parcelsGeoJSON';
@@ -27,6 +28,8 @@ import {
   fetchCurrentModelEnvironmentalData,
   isWithinCadastralCoverage,
 } from './utils/indiaGeoService';
+
+const LOCAL_AREA_ZOOM = 17;
 
 export function App() {
   const mapInstanceRef = useRef<MapLibreMap | null>(null);
@@ -62,6 +65,7 @@ export function App() {
   const [areaContext, setAreaContext] = useState<UnconnectedAreaInspectionResult | null>(null);
   const [isAreaContextVisible, setIsAreaContextVisible] = useState(false);
   const [isInspectingArea, setIsInspectingArea] = useState(false);
+  const inspectionRequestRef = useRef(0);
 
   // 3D Globe Projection & Perspective Controls
   const [isGlobe, setIsGlobe] = useState(true);
@@ -115,14 +119,29 @@ export function App() {
 
   /**
    * Non-cadastral area inspection:
-   * 1. Map has already flown to the clicked point (SatelliteMap handles the flyTo)
-   * 2. Show the overlay card immediately in loading state
-   * 3. Fire Nominatim + Open-Meteo concurrently
-   * 4. Populate overlay card with real data
+   * Each background click advances one geographic level: country, state,
+   * district, then local area. This keeps broad views useful before drilling in.
    */
-  const handleInspectUnconnectedArea = useCallback(async (coord: { lat: number; lng: number }) => {
+  const handleInspectUnconnectedArea = useCallback(async ({ lat, lng, level = 'local' }: GeographicInspectionRequest) => {
+    const coord = { lat, lng };
     if (isWithinCadastralCoverage(coord.lat, coord.lng)) return;
-    if (isInspectingArea) return;
+    const requestId = ++inspectionRequestRef.current;
+
+    const targetZoom = {
+      country: 4.5,
+      state: 7.5,
+      district: 11,
+      local: LOCAL_AREA_ZOOM,
+    }[level];
+    mapInstanceRef.current?.flyTo({
+      center: [coord.lng, coord.lat],
+      zoom: targetZoom,
+      pitch: level === 'local' ? 45 : 20,
+      bearing: 0,
+      speed: 1.2,
+      curve: 1.2,
+      essential: true,
+    });
 
     // Dismiss parcel drawer — area context takes over the UI
     setIsDigitalTwinOpen(false);
@@ -144,6 +163,8 @@ export function App() {
         fetchCurrentModelEnvironmentalData(coord.lat, coord.lng),
       ]);
 
+      if (requestId !== inspectionRequestRef.current) return;
+
       setAreaContext({
         coordinates: [coord.lng, coord.lat],
         admin,
@@ -153,9 +174,9 @@ export function App() {
     } catch (err) {
       console.warn('Area inspection error:', err);
     } finally {
-      setIsInspectingArea(false);
+      if (requestId === inspectionRequestRef.current) setIsInspectingArea(false);
     }
-  }, [isInspectingArea]);
+  }, []);
 
   const handleRunSimulation = (_params: PolicySimulationParams) => {
     setIsPolicySimulated(true);
@@ -211,6 +232,25 @@ export function App() {
     const map = mapInstanceRef.current;
     if (!map) return;
 
+    const isWholeIndiaView = preset.name === 'Whole India 3D';
+
+    // The overview preset is a navigation reset, not an area inspection. Do
+    // not let the context workflow immediately zoom back into a local area.
+    if (isWholeIndiaView) {
+      setIsGlobe(true);
+      setIs3D(true);
+      try {
+        map.setProjection({ type: 'globe' });
+      } catch (err) {
+        console.warn('Unable to restore globe projection:', err);
+      }
+      setSelectedParcel(null);
+      setPopupPosition(null);
+      setIsDigitalTwinOpen(false);
+      setIsAreaContextVisible(false);
+      setAreaContext(null);
+    }
+
     map.flyTo({
       center: preset.center,
       zoom: preset.zoom,
@@ -219,6 +259,10 @@ export function App() {
       essential: true,
       duration: 2200,
     });
+
+    if (isWholeIndiaView) {
+      return;
+    }
 
     if (preset.parcelId) {
       const match = parcelsGeoJSONData.features.find(

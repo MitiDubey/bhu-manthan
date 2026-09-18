@@ -278,6 +278,14 @@ export interface MapTelemetry {
   elevation: number;
 }
 
+export type GeographicInspectionLevel = 'country' | 'state' | 'district' | 'local';
+
+export interface GeographicInspectionRequest {
+  lat: number;
+  lng: number;
+  level?: GeographicInspectionLevel;
+}
+
 // Enterprise PostgreSQL + PostGIS Domain Model Mappings
 export interface DbParcelRecord {
   parcel_id: string; // Primary Key

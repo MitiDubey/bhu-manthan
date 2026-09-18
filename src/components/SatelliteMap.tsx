@@ -3,16 +3,21 @@ import * as maplibregl from 'maplibre-gl';
 import type { 
   ParcelProperties, 
   LayerVisibilityState, 
-  MapTelemetry 
+  MapTelemetry,
+  GeographicInspectionRequest,
 } from '../types/parcel';
 import { LAND_USE_COLORS } from '../utils/mapUtils';
 import { parcelsGeoJSONData } from '../data/parcelsGeoJSON';
+
+// Level 17 is the highest reliable imagery level across the study area. Higher
+// requests return ArcGIS "Map data not available" tiles in some locations.
+const FOCUSED_INSPECTION_ZOOM = 17;
 
 interface SatelliteMapProps {
   layers: LayerVisibilityState;
   selectedParcelId: string | null;
   onSelectParcel: (parcel: ParcelProperties | null, screenPos?: { x: number; y: number } | null) => void;
-  onInspectUnconnectedArea?: (coord: { lat: number; lng: number }) => void;
+  onInspectUnconnectedArea?: (request: GeographicInspectionRequest) => void;
   onUpdateTelemetry: (telemetry: MapTelemetry) => void;
   terrainExaggeration: number;
   is3D: boolean;
@@ -55,6 +60,7 @@ export const SatelliteMap: React.FC<SatelliteMapProps> = ({
     // MapLibre Map style with 3D Globe projection, satellite raster, and terrain DEM
     const map = new maplibregl.Map({
       container: mapContainer.current,
+      maxZoom: FOCUSED_INSPECTION_ZOOM,
       style: {
         version: 8,
         projection: {
@@ -503,7 +509,7 @@ export const SatelliteMap: React.FC<SatelliteMapProps> = ({
         // Smooth camera fly-to focusing on the parcel
         map.flyTo({
           center: centroid || [e.lngLat.lng, e.lngLat.lat],
-          zoom: 16.5,
+          zoom: FOCUSED_INSPECTION_ZOOM,
           pitch: 58,
           bearing: 15,
           speed: 1.2,
@@ -517,20 +523,13 @@ export const SatelliteMap: React.FC<SatelliteMapProps> = ({
         // Clicked outside connected cadastral features -> never generate fake parcel
         onSelectParcel(null, null);
         if (onInspectUnconnectedArea) {
-          // Fly camera to clicked location (expand into focused area view)
+          // Progressively drill into the clicked geography instead of always
+          // jumping to street/parcel scale.
           const clickedLng = e.lngLat.lng;
           const clickedLat = e.lngLat.lat;
-          const currentZoom = map.getZoom();
-          map.flyTo({
-            center: [clickedLng, clickedLat],
-            zoom: Math.max(currentZoom, 13),
-            pitch: 45,
-            bearing: map.getBearing(),
-            speed: 1.4,
-            curve: 1.2,
-            essential: true,
-          });
-          onInspectUnconnectedArea({ lat: clickedLat, lng: clickedLng });
+          const zoom = map.getZoom();
+          const level = zoom <= 4 ? 'country' : zoom <= 7 ? 'state' : zoom <= 10 ? 'district' : 'local';
+          onInspectUnconnectedArea({ lat: clickedLat, lng: clickedLng, level });
         }
       }
     });
