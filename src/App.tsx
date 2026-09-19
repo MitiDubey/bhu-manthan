@@ -26,7 +26,6 @@ import { parcelsGeoJSONData } from './data/parcelsGeoJSON';
 import {
   reverseGeocode,
   fetchCurrentModelEnvironmentalData,
-  isWithinCadastralCoverage,
 } from './utils/indiaGeoService';
 import { fetchBhuvanLulc } from './utils/bhuvanLulcService';
 
@@ -122,10 +121,9 @@ export function App() {
    * Non-cadastral area inspection:
    * Each background click advances one geographic level: country, state,
    * district, then local area. This keeps broad views useful before drilling in.
-   */
+  */
   const handleInspectUnconnectedArea = useCallback(async ({ lat, lng, level = 'local' }: GeographicInspectionRequest) => {
     const coord = { lat, lng };
-    if (isWithinCadastralCoverage(coord.lat, coord.lng)) return;
     const requestId = ++inspectionRequestRef.current;
 
     const targetZoom = {
