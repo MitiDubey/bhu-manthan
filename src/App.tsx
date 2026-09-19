@@ -28,6 +28,7 @@ import {
   fetchCurrentModelEnvironmentalData,
   isWithinCadastralCoverage,
 } from './utils/indiaGeoService';
+import { fetchBhuvanLulc } from './utils/bhuvanLulcService';
 
 const LOCAL_AREA_ZOOM = 17;
 
@@ -158,9 +159,10 @@ export function App() {
     setIsInspectingArea(true);
 
     try {
-      const [admin, environmental] = await Promise.all([
+      const [admin, environmental, bhuvan_lulc] = await Promise.all([
         reverseGeocode(coord.lat, coord.lng),
         fetchCurrentModelEnvironmentalData(coord.lat, coord.lng),
+        fetchBhuvanLulc(coord.lat, coord.lng),
       ]);
 
       if (requestId !== inspectionRequestRef.current) return;
@@ -169,7 +171,8 @@ export function App() {
         coordinates: [coord.lng, coord.lat],
         admin,
         environmental,
-        lulc_context: `Satellite-derived LULC classification from ISRO-NRSC Bhuvan available for this region. Toggle the "Bhuvan LULC" layer (left panel) to view the ${admin.state || 'regional'} land cover classification over the satellite basemap.`,
+        bhuvan_lulc,
+        lulc_context: undefined,
       });
     } catch (err) {
       console.warn('Area inspection error:', err);

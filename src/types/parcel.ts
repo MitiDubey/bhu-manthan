@@ -116,6 +116,18 @@ export interface UnconnectedAreaInspectionResult {
     surface_pressure?: number;
   };
   lulc_context?: string;
+  bhuvan_lulc?: {
+    success: boolean;
+    available: boolean;
+    message?: string | null;
+    source?: string | null;
+    dataset?: string | null;
+    year?: string;
+    district?: string | null;
+    lulc_code?: number | null;
+    class_name?: string | null;
+    sub_class?: string | null;
+  };
 }
 
 export interface DigitalTwinDossier {

@@ -34,6 +34,7 @@ export const AreaContextOverlay: React.FC<AreaContextOverlayProps> = ({
   if (!isLoading && !data) return null;
 
   const env = data?.environmental;
+  const lulc = data?.bhuvan_lulc;
   const admin = data?.admin;
   const [lng, lat] = data?.coordinates ?? [0, 0];
 
@@ -192,9 +193,19 @@ export const AreaContextOverlay: React.FC<AreaContextOverlayProps> = ({
                 </span>
                 <span className="text-[8px] text-slate-500 font-mono">ISRO-NRSC</span>
               </div>
-              <div className="px-2 py-2 rounded-lg bg-teal-950/30 border border-teal-700/30 text-[10px] text-teal-200/80 leading-relaxed">
-                {data.lulc_context || 'Thematic LULC classification available via Bhuvan WMS layer. Toggle the Bhuvan LULC layer (left panel) to view satellite-derived land cover classification at this location.'}
-              </div>
+              {lulc?.success ? (
+                <div className="px-2 py-2 rounded-lg bg-teal-950/30 border border-teal-700/30 text-[10px] text-teal-100 space-y-1">
+                  <div className="flex justify-between"><span>Class</span><strong>{lulc.class_name ?? 'Not returned by source'}</strong></div>
+                  <div className="flex justify-between"><span>Sub-class</span><strong>{lulc.sub_class ?? 'Not returned by source'}</strong></div>
+                  <div className="flex justify-between"><span>Code / District</span><span>{lulc.lulc_code ?? '—'} / {lulc.district ?? '—'}</span></div>
+                  <p className="pt-1 text-[8px] text-emerald-300 font-bold">REAL SOURCE DATA · {lulc.dataset} · {lulc.year}</p>
+                </div>
+              ) : (
+                <div className="px-2 py-2 rounded-lg bg-slate-800/60 border border-slate-700/50 text-[10px] text-slate-300 leading-relaxed">
+                  {lulc?.message || 'Not available from connected Bhuvan source.'}
+                </div>
+              )}
+              <p className="text-[8px] text-slate-500 mt-1">Bhuvan LULC is thematic land cover, not a legal land record, ownership, ULPIN, or Khasra.</p>
             </div>
 
           </div>
