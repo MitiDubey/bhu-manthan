@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { DigitalTwinView } from '../components/DigitalTwinView';
 import { CadastralMap } from '../components/map/CadastralMap';
 import { ParcelDetailDrawer } from '../components/digitalTwin/ParcelDetailDrawer';
 import { indianStatesAndCities } from '../data/indiaGeographies';
 import { Badge } from '../components/common/Badge';
 import {
-  MapPin,
   Compass,
-  Navigation,
-  Sparkles,
   Info,
-  ChevronDown,
   Layers,
-  Search,
+  Globe,
+  Sparkles,
 } from 'lucide-react';
 
 export const DigitalTwinPage: React.FC = () => {
+  const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d');
+
   const {
     parcels,
     selectedParcel,
@@ -24,8 +24,6 @@ export const DigitalTwinPage: React.FC = () => {
     selectedCity,
     setSelectedGeography,
   } = useApp();
-
-  const [citySearchQuery, setCitySearchQuery] = useState('');
 
   // Find the selected state object
   const currentStateObj =
@@ -46,7 +44,7 @@ export const DigitalTwinPage: React.FC = () => {
     }
   };
 
-  // Quick jump presets
+  // Quick jump presets for 2D overview
   const quickJumpLocations: { state: string; city: string; coords: [number, number]; label: string }[] = [
     { state: 'Uttar Pradesh', city: 'Varanasi', coords: [25.3630, 83.0200], label: 'Varanasi Peri-Urban (UP)' },
     { state: 'Uttar Pradesh', city: 'Ayodhya', coords: [26.7922, 82.1998], label: 'Ayodhya Heritage (UP)' },
@@ -55,14 +53,22 @@ export const DigitalTwinPage: React.FC = () => {
     { state: 'Delhi (NCT)', city: 'Dwarka - Aerocity Corridor', coords: [28.5921, 77.0460], label: 'Delhi-NCR Aerocity (DL)' },
   ];
 
+  if (viewMode === '3d') {
+    return (
+      <div className="relative w-full h-[calc(100vh-4rem)] flex flex-col overflow-hidden">
+        <DigitalTwinView onSwitchTo2D={() => setViewMode('2d')} />
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full h-[calc(100vh-4rem)] flex flex-col overflow-hidden">
-      {/* ALL-INDIA GEOGRAPHY EXPLORER TOOLBAR */}
+      {/* 2D ALL-INDIA GEOGRAPHY EXPLORER TOOLBAR */}
       <div className="h-14 bg-twin-900/90 border-b border-twin-700/80 px-4 flex items-center justify-between z-10 backdrop-blur-xl shrink-0 gap-4 overflow-x-auto">
         <div className="flex items-center gap-3 shrink-0">
           <div className="flex items-center gap-1.5 text-xs font-mono text-cyan-400 font-bold">
             <Compass className="w-4 h-4 text-cyan-400" />
-            <span className="hidden sm:inline">ALL-INDIA EXPLORER:</span>
+            <span className="hidden sm:inline">2D EXPLORER:</span>
           </div>
 
           {/* 1. Indian State Selector */}
@@ -114,10 +120,17 @@ export const DigitalTwinPage: React.FC = () => {
           ))}
         </div>
 
-        {/* Active Node Info badge */}
+        {/* Switch back to 3D View */}
         <div className="shrink-0 flex items-center gap-2">
+          <button
+            onClick={() => setViewMode('3d')}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-xs font-mono transition-colors shadow-glow-cyan"
+          >
+            <Globe className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+            <span>Launch 3D Satellite Twin</span>
+          </button>
           <Badge variant="cyan" size="sm">
-            {currentStateObj.cities.length} DISTRICTS MONITORED
+            {currentStateObj.cities.length} DISTRICTS
           </Badge>
         </div>
       </div>
