@@ -9,10 +9,14 @@ export const mockKnowledgeDocuments: KnowledgeDocument[] = [
     state: 'Uttar Pradesh',
     district: 'All Districts',
     topic: 'Revenue & Land Reforms',
+    docType: 'Legal Documents',
+    source: 'UP Revenue Board Gazette',
+    version: 'v4.1 (Amended 2023)',
+    keywords: ['Section 80', 'Section 143', 'Farmland Conversion', 'SDM Sanction', 'Penalty'],
     fileUri: '/documents/up_revenue_code_sec143.pdf',
     accessLevel: 'Public',
     snippet: 'Agricultural land cannot be put to non-agricultural, commercial, or industrial use without prior declaration under Section 80 (erstwhile Section 143) by the Sub-Divisional Magistrate (SDM). Any unauthorized construction attracts summary demolition and penalty.',
-    citation: 'UP Revenue Code 2006 (Amended 2023), Sections 80–84'
+    citation: 'UP Revenue Code 2006 (Amended 2023), Sections 80–84',
   },
   {
     id: 'doc-002',
@@ -22,10 +26,14 @@ export const mockKnowledgeDocuments: KnowledgeDocument[] = [
     state: 'Uttar Pradesh',
     district: 'Varanasi',
     topic: 'Zoning & Master Plan',
+    docType: 'Policy Documents',
+    source: 'Varanasi Development Authority',
+    version: 'Final Notification v2.0',
+    keywords: ['Sarnath Buffer', 'ASI Monuments', 'Master Plan 2031', 'Sector 4', 'Prohibited Zone'],
     fileUri: '/documents/vda_master_plan_2031.pdf',
     accessLevel: 'Public',
     snippet: 'A mandatory 300-meter regulated zone and 100-meter prohibited zone surrounds all ASI protected monuments including Dhamek Stupa and Ashoka Pillar in Sarnath. High-density commercial warehousing is strictly barred in Sector 4.',
-    citation: 'VDA Notification No. 1142/MasterPlan/2022, Schedule C'
+    citation: 'VDA Notification No. 1142/MasterPlan/2022, Schedule C',
   },
   {
     id: 'doc-003',
@@ -35,10 +43,14 @@ export const mockKnowledgeDocuments: KnowledgeDocument[] = [
     state: 'Uttar Pradesh',
     district: 'Varanasi',
     topic: 'Environmental & Wetland Protection',
+    docType: 'Legal Documents',
+    source: 'National Green Tribunal Order Portal',
+    version: 'Judicial Order (Final)',
+    keywords: ['Varuna Floodplain', 'High Flood Level', 'Riparian Buffer', 'NDWI Satellite Audit', 'NGT Directive'],
     fileUri: '/documents/ngt_varuna_floodplain_2024.pdf',
     accessLevel: 'Public',
     snippet: 'No permanent construction or landfilling of seasonal wetlands is permissible within 100 meters of the High Flood Level (HFL) of River Varuna. District authorities are mandated to use satellite remote sensing for monthly compliance audits.',
-    citation: 'NGT Order OA No. 419/2023 (Varuna Riparian Audit)'
+    citation: 'NGT Order OA No. 419/2023 (Varuna Riparian Audit)',
   },
   {
     id: 'doc-004',
@@ -48,10 +60,14 @@ export const mockKnowledgeDocuments: KnowledgeDocument[] = [
     state: 'National',
     district: 'All Districts',
     topic: 'Remote Sensing & GIS',
+    docType: 'GIS Resources',
+    source: 'Survey of India / MoPR',
+    version: 'Technical Manual v3.2',
+    keywords: ['SVAMITVA', 'Drone Orthomosaic', 'Cadastral Overlay', 'Sentinel-2 Co-registration', 'PostGIS'],
     fileUri: '/documents/svamitva_cadastral_standards.pdf',
     accessLevel: 'Government Official',
     snippet: 'High-resolution drone ortho-rectified imagery (5cm GSD) and Sentinel-2 10m multispectral bands must be co-registered with local revenue Cadastral maps (Bhusampada/Bhulekh) to detect sub-parcel boundary shifts.',
-    citation: 'MoPR SVAMITVA Technical Manual v3.2, Ch. 4'
+    citation: 'MoPR SVAMITVA Technical Manual v3.2, Ch. 4',
   },
   {
     id: 'doc-005',
@@ -61,30 +77,122 @@ export const mockKnowledgeDocuments: KnowledgeDocument[] = [
     state: 'National',
     district: 'All Districts',
     topic: 'Environmental & Wetland Protection',
+    docType: 'Policy Documents',
+    source: 'MoEFCC Gazette of India',
+    version: 'Statutory Rules 2020',
+    keywords: ['Gram Sabha Ponds', 'Wetland Atlas', 'Encroachment Penalty', 'Ecological Character'],
     fileUri: '/documents/wetland_rules_2020.pdf',
     accessLevel: 'Public',
-    snippet: 'Conversion of notified ponds, talabs, and riparian flood basins into commercial plinths is strictly prohibited. State Wetland Authorities are empowered to reverse encroached titles with retrospective effect.',
-    citation: 'MoEFCC GSR 160(E), Section 4'
-  }
+    snippet: 'Ponds, lakes, and oxbow water bodies recorded in the revenue Khatauni must maintain baseline boundary demarcations. Revenue officers are prohibited from declaring any recorded water body as dry land for mutation.',
+    citation: 'MoEFCC Notification G.S.R. 385(E)',
+  },
+  {
+    id: 'doc-006',
+    title: 'Longitudinal Land-Use Transition Analysis in Gangetic Floodplains (2015–2024)',
+    author: 'Department of Geoinformatics, IIT BHU Varanasi',
+    year: 2024,
+    state: 'Uttar Pradesh',
+    district: 'Varanasi',
+    topic: 'Remote Sensing & GIS',
+    docType: 'Research Papers',
+    source: 'International Journal of Applied Earth Observation & Geoinformation',
+    version: 'Peer Reviewed (Published)',
+    keywords: ['Gangetic Plain', 'Urban Sprawl', 'Cellular Automata', 'Cartosat-3', 'NDVI Loss'],
+    fileUri: '/documents/iit_bhu_ganga_lulc_study.pdf',
+    accessLevel: 'Public',
+    snippet: 'Multi-decadal satellite analysis indicates a 22.4% contraction in primary double-crop agricultural land in the Varanasi peri-urban ring, driven primarily by speculative logistics infrastructure along National Highway arteries.',
+    citation: 'Sharma et al., IIT BHU Geo-Journal (2024) 48:112-128',
+  },
+  {
+    id: 'doc-007',
+    title: 'ISRO Bhuvan High-Resolution Multi-Temporal LULC 1:50,000 Geospatial Dataset',
+    author: 'National Remote Sensing Centre (NRSC / ISRO)',
+    year: 2023,
+    state: 'National',
+    district: 'Varanasi',
+    topic: 'Remote Sensing & GIS',
+    docType: 'Satellite Resources',
+    source: 'ISRO Bhuvan Open Data Archive',
+    version: 'Cycle-6 Release (2022-23)',
+    keywords: ['Bhuvan LULC', 'NRSC', 'Linear Infrastructure', 'Crop Classification', 'GeoPackage'],
+    fileUri: '/datasets/isro_bhuvan_lulc_50k.geojson',
+    accessLevel: 'Public',
+    snippet: 'Standardized national land use / land cover vector dataset generated using IRS Resourcesat-2 LISS-III and AWiFS sensors covering agriculture, fallow, forest, wetlands, and built-up land classes.',
+    citation: 'NRSC/ISRO National LULC Atlas Cycle 6',
+  },
+  {
+    id: 'doc-008',
+    title: 'RFCTLARR Act 2013: Fair Compensation & Rehabilitation Benchmarks in Urban Corridors',
+    author: 'Ministry of Rural Development, Govt of India',
+    year: 2023,
+    state: 'National',
+    district: 'All Districts',
+    topic: 'Revenue & Land Reforms',
+    docType: 'Legal Documents',
+    source: 'Law Commission of India / MoRD',
+    version: 'Consolidated Reference v2.4',
+    keywords: ['RFCTLARR Act', 'Land Acquisition', '4x Market Value', 'Solatium', 'Rehabilitation'],
+    fileUri: '/documents/rfctlarr_act_compensation_benchmarks.pdf',
+    accessLevel: 'Public',
+    snippet: 'Mandates compensation at 1x to 2x the market value in urban areas and up to 4x in rural areas, accompanied by a 100% solatium fee and structured grievance adjudication via the Land Acquisition, Rehabilitation and Resettlement Authority.',
+    citation: 'Right to Fair Compensation Act 2013 (Act No. 30 of 2013), Sec 26–30',
+  },
+  {
+    id: 'doc-009',
+    title: 'Case Study: Resolution of Highway Boundary Overlaps via DGPS in Varanasi Outer Ring Road',
+    author: 'NHAI Project Implementation Unit & UP Revenue Board',
+    year: 2023,
+    state: 'Uttar Pradesh',
+    district: 'Varanasi',
+    topic: 'Revenue & Land Reforms',
+    docType: 'Case Studies',
+    source: 'NHAI Technical Repository',
+    version: 'Project Closeout Report',
+    keywords: ['Ring Road Phase 2', 'DGPS Survey', 'Khatauni Consolidation', 'Boundary Dispute Settlement'],
+    fileUri: '/documents/nhai_vns_ring_road_case_study.pdf',
+    accessLevel: 'Government Official',
+    snippet: 'Empirical review of 86 contested parcels in Sarnath and Sadar tehsils. Integration of electronic total station (ETS) coordinates with UP Bhulekh GIS reduced mutation dispute pendency by 64% over 18 months.',
+    citation: 'NHAI/PIU-VNS/CaseStudy/2023-09',
+  },
 ];
 
-export const mockAiQueries: Record<string, { answer: string; confidence: number; citations: string[]; sourceDocIds: string[] }> = {
-  'commercial': {
-    answer: 'Under Section 80 of the Uttar Pradesh Revenue Code (erstwhile Sec 143), agricultural land cannot be utilized for commercial purposes without an explicit conversion order passed by the Sub-Divisional Magistrate (SDM). Furthermore, if the parcel falls within 300 meters of the Sarnath heritage precinct or within 100 meters of the Varuna River High Flood Level, conversion is strictly prohibited under VDA Master Plan 2031 and NGT OA 419/2023 directives.',
-    confidence: 96.4,
-    citations: ['UP Revenue Code 2006, Sec 80', 'VDA Master Plan 2031, Schedule C', 'NGT Order OA No. 419/2023'],
-    sourceDocIds: ['doc-001', 'doc-002', 'doc-003']
-  },
-  'wetland': {
-    answer: 'Seasonal wetlands, village talabs, and riparian buffer basins are classified as non-transferable public utility land under Section 77 of the UP Revenue Code and the Wetland (Conservation and Management) Rules. No construction, earthfilling, or zoning reclassification is permissible. The Supreme Court in Hinch Lal Tiwari v. Kamala Devi mandates immediate restoration of all recorded water bodies.',
-    confidence: 98.1,
-    citations: ['MoEFCC Wetland Rules 2020', 'UP Revenue Code Sec 77', 'Supreme Court (2001) 6 SCC 496'],
-    sourceDocIds: ['doc-003', 'doc-005']
-  },
-  'sarnath': {
-    answer: 'Properties in the Sarnath Archaeological buffer are governed by the Ancient Monuments and Archaeological Sites and Remains (AMASR) Act and VDA Master Plan 2031. Within 100 meters, all construction is strictly barred (Prohibited Area). Within 100–300 meters (Regulated Area), construction requires prior clearance from the National Monuments Authority (NMA) and VDA.',
-    confidence: 95.8,
-    citations: ['AMASR Act 1958/2010', 'VDA Master Plan 2031'],
-    sourceDocIds: ['doc-002']
+export const mockAiQueries: Record<
+  string,
+  {
+    answer: string;
+    confidence: number;
+    citations: string[];
+    sourceDocIds: string[];
   }
+> = {
+  commercial: {
+    answer:
+      'Under Section 80 of the Uttar Pradesh Revenue Code 2006 (formerly Section 143), prime irrigated agricultural land cannot be unilaterally converted to commercial or logistics storage uses. The landholder must submit a formal declaration petition before the Sub-Divisional Magistrate (SDM) Sarnath, pay the requisite conversion fee (typically 1% to 2% of circle rate), and obtain a No-Objection Certificate (NOC) from the Varanasi Development Authority (VDA) to ensure alignment with Master Plan 2031 zoning. Unauthorized construction is liable for summary sealing and fine under Section 82.',
+    confidence: 96.4,
+    citations: [
+      'UP Revenue Code 2006 (Amended 2023), Sections 80 & 82',
+      'VDA Notification No. 1142/MasterPlan/2022, Schedule C',
+    ],
+    sourceDocIds: ['doc-001', 'doc-002'],
+  },
+  wetland: {
+    answer:
+      'Pursuant to the National Green Tribunal (NGT) Principal Bench order in OA No. 419/2023 and the Wetland (Conservation & Management) Rules 2020, a strictly enforced 100-meter buffer from the High Flood Level (HFL) of River Varuna is classified as a prohibited development zone. No land mutation converting riparian floodplains or recorded ponds into commercial, residential, or industrial classes can be sanctioned by the Lekhpal or Tehsildar. District authorities are mandated to conduct monthly satellite change detection audits.',
+    confidence: 94.8,
+    citations: [
+      'NGT Order OA No. 419/2023 (Varuna Riparian Audit)',
+      'MoEFCC Wetland (Conservation and Management) Rules, Notification G.S.R. 385(E)',
+    ],
+    sourceDocIds: ['doc-003', 'doc-005'],
+  },
+  sarnath: {
+    answer:
+      'Under the Ancient Monuments and Archaeological Sites and Remains (AMASR) Act and VDA Master Plan 2031, a 100-meter prohibited buffer extends outwards from the protected perimeter of the Sarnath Archaeological Complex (including Dhamek Stupa and Ashoka Pillar), where no construction of any kind is lawful. An additional 200-meter regulated buffer restricts building height to 7.5 meters and requires mandatory clearance from the National Monuments Authority (NMA).',
+    confidence: 98.1,
+    citations: [
+      'AMASR (Amendment and Validation) Act, Section 20A & 20B',
+      'VDA Notification No. 1142/MasterPlan/2022, Schedule C',
+    ],
+    sourceDocIds: ['doc-002', 'doc-004'],
+  },
 };

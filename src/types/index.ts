@@ -148,6 +148,46 @@ export interface Parcel {
   floodRisk: 'Low' | 'Moderate' | 'High' | 'Critical';
   zoningViolation: boolean;
   nearWetlandBuffer: boolean;
+
+  // Module 8: Dispute & Compensation Intelligence
+  ulpIn?: string; // 14-digit Unique Land Parcel Identification Number (Bhu-Aadhaar)
+  disputeInfo?: DisputeRecord;
+  compensationInfo?: CompensationRecord;
+}
+
+export interface DisputeTimelineEvent {
+  date: string;
+  stage: string;
+  orderSummary: string;
+  courtAuthority: string;
+}
+
+export interface DisputeRecord {
+  id: string;
+  status: 'Active Litigation' | 'Revenue Court Sub-Judice' | 'Resolved' | 'No Dispute';
+  category: 'Boundary Overlap' | 'Title Contestation' | 'Heirship Dispute' | 'Compensation Grievance' | 'Zoning Dispute';
+  authority: string; // e.g. "Tehsildar Court Sarnath", "High Court of Judicature at Allahabad", "District Magistrate Land Tribunal", "CPGRAMS / Revenue Grievance Board"
+  caseNumber: string; // e.g. "NJDG-UP-VNS-2023-4912"
+  cnrNumber?: string;
+  filingDate: string;
+  nextHearingDate?: string;
+  disputeAreaHa?: number;
+  partiesInvolved: string;
+  timeline: DisputeTimelineEvent[];
+}
+
+export interface CompensationRecord {
+  id: string;
+  schemeName: string; // e.g. "Varanasi Ring Road Ph-2 Land Acquisition", "Dedicated Freight Corridor (DFCCIL) Buffer"
+  sanctionedAmountInr: number; // e.g. 4500000 (₹45 Lakhs)
+  disbursedAmountInr: number;
+  pendingAmountInr: number;
+  status: 'Fully Disbursed' | 'Partially Disbursed' | 'Escrow Held / Pending Dispute' | 'Under Revenue Assessment' | 'Not Applicable';
+  pendingDurationDays: number;
+  bankAccountLinked: boolean;
+  dbtStatus: 'Credited' | 'Awaiting Aadhaar Authentication' | 'Held by Revenue Order' | 'N/A';
+  landAreaAcquiredHa: number;
+  competentAuthority: string;
 }
 
 export interface ChangeEvent {
@@ -167,6 +207,34 @@ export interface ChangeEvent {
   description: string;
   flagSeverity: 'High' | 'Medium' | 'Low';
   assignedSurveyor?: string;
+
+  // Module 3: Verification Prioritization pipeline fields (Pages 2-3 of PDF)
+  changeMagnitude: 'High' | 'Medium' | 'Low';
+  dataQuality: 'High (Cartosat-3 2.5m)' | 'Moderate (Sentinel-2 10m)' | 'Low (Cloud Shadow)';
+  governanceRelevance: 'High' | 'Medium' | 'Low';
+  priorityScore: number; // 0 - 100
+  reviewerQueue: 'Authorized Reviewer' | 'Review Queue' | 'Monitoring / Batch Review';
+  verificationOrderNo?: string;
+  verifiedBy?: string;
+  verifiedAt?: string;
+  officialResolutionNotes?: string;
+}
+
+export interface PolicyFeedbackRecord {
+  id: string;
+  policyName: string;
+  implementedYear: number;
+  evaluationYear: number;
+  geography: string;
+  predictedFarmlandLossHa: number;
+  actualFarmlandLossHa: number;
+  predictedUrbanGainHa: number;
+  actualUrbanGainHa: number;
+  predictedRevenueCr: number;
+  actualRevenueCr: number;
+  effectivenessScorePct: number; // e.g. 84.2%
+  modelAdjustmentNotes: string;
+  observedEvidenceSource: string;
 }
 
 export interface PolicyScenario {
@@ -196,6 +264,16 @@ export interface PolicyScenario {
   };
 }
 
+export type KnowledgeDocType = 
+  | 'Research Papers'
+  | 'Policy Documents'
+  | 'Legal Documents'
+  | 'Datasets'
+  | 'Case Studies'
+  | 'Project Reports'
+  | 'GIS Resources'
+  | 'Satellite Resources';
+
 export interface KnowledgeDocument {
   id: string;
   title: string;
@@ -204,6 +282,10 @@ export interface KnowledgeDocument {
   state: string;
   district: string;
   topic: 'Zoning & Master Plan' | 'Revenue & Land Reforms' | 'Environmental & Wetland Protection' | 'Remote Sensing & GIS';
+  docType: KnowledgeDocType;
+  source: string;
+  version: string;
+  keywords: string[];
   fileUri: string;
   accessLevel: 'Public' | 'Government Official' | 'Restricted';
   snippet: string;
@@ -214,7 +296,16 @@ export interface KnowledgeDocument {
 export interface User {
   id: string;
   name: string;
-  role: 'District Magistrate / Collector' | 'Town Planning Officer' | 'GIS Analyst' | 'Field Revenue Inspector';
+  role: 
+    | 'Public User'
+    | 'Researcher'
+    | 'District Magistrate / Collector'
+    | 'Authorized Reviewer (Tehsildar)'
+    | 'Town Planning Officer'
+    | 'GIS Analyst'
+    | 'Field Revenue Inspector'
+    | 'Institutional Partner (IIT/ISRO)'
+    | 'System Administrator';
   email: string;
   department: string;
 }
@@ -235,3 +326,4 @@ export interface IndianState {
   center: [number, number];
   cities: IndianCity[];
 }
+

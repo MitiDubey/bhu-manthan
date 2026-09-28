@@ -27,6 +27,9 @@ import {
   Building,
   RefreshCw,
   ExternalLink,
+  Scale,
+  DollarSign,
+  Clock,
 } from 'lucide-react';
 
 export const ParcelDetailDrawer: React.FC = () => {
@@ -34,7 +37,7 @@ export const ParcelDetailDrawer: React.FC = () => {
   
   // Navigation sub-tabs inside drawer for clean viewing of the 12 fields
   const [activeTab, setActiveTab] = useState<
-    'core' | 'soil_env' | 'satellite' | 'history' | 'research' | 'scenarios'
+    'core' | 'disputes_comp' | 'soil_env' | 'satellite' | 'history' | 'research' | 'scenarios'
   >('core');
 
   if (!selectedParcel) return null;
@@ -108,6 +111,19 @@ export const ParcelDetailDrawer: React.FC = () => {
           }`}
         >
           Identity & Area
+        </button>
+        <button
+          onClick={() => setActiveTab('disputes_comp')}
+          className={`px-3 py-2.5 text-center font-medium border-b-2 whitespace-nowrap transition-all flex items-center gap-1.5 ${
+            activeTab === 'disputes_comp'
+              ? 'border-rose-400 text-rose-300 bg-rose-950/30'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <span>Disputes & Comp</span>
+          {selectedParcel.disputeInfo && selectedParcel.disputeInfo.status !== 'No Dispute' && (
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
+          )}
         </button>
         <button
           onClick={() => setActiveTab('soil_env')}
@@ -284,6 +300,165 @@ export const ParcelDetailDrawer: React.FC = () => {
                   </li>
                 ))}
               </ul>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 1.5: MODULE 8 DISPUTES & COMPENSATION INTELLIGENCE (PDF Page 2 & 9) */}
+        {activeTab === 'disputes_comp' && (
+          <div className="space-y-4">
+            {/* Dispute Dossier Card */}
+            <div className="p-3.5 rounded-xl bg-twin-850 border border-twin-700/80 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10px] uppercase text-slate-400 font-semibold tracking-wider flex items-center gap-1.5">
+                  <Scale className="w-3.5 h-3.5 text-rose-400" />
+                  Judicial & Revenue Dispute Status
+                </span>
+                <Badge
+                  variant={
+                    selectedParcel.disputeInfo?.status === 'Active Litigation'
+                      ? 'rose'
+                      : selectedParcel.disputeInfo?.status === 'Revenue Court Sub-Judice'
+                      ? 'amber'
+                      : selectedParcel.disputeInfo?.status === 'Resolved'
+                      ? 'emerald'
+                      : 'slate'
+                  }
+                >
+                  {selectedParcel.disputeInfo?.status || 'No Active Dispute'}
+                </Badge>
+              </div>
+
+              {selectedParcel.disputeInfo && selectedParcel.disputeInfo.status !== 'No Dispute' ? (
+                <div className="space-y-2 text-xs font-mono">
+                  <div className="p-2.5 rounded-lg bg-twin-950 border border-twin-800 space-y-1">
+                    <div className="flex justify-between text-slate-300">
+                      <span className="text-slate-500">Category:</span>
+                      <span className="text-rose-400 font-bold">{selectedParcel.disputeInfo.category}</span>
+                    </div>
+                    <div className="flex justify-between text-slate-300">
+                      <span className="text-slate-500">Case Ref:</span>
+                      <span className="text-slate-200">{selectedParcel.disputeInfo.caseNumber}</span>
+                    </div>
+                    {selectedParcel.disputeInfo.cnrNumber && (
+                      <div className="flex justify-between text-slate-300">
+                        <span className="text-slate-500">NJDG CNR:</span>
+                        <span className="text-cyan-400">{selectedParcel.disputeInfo.cnrNumber}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-slate-300">
+                      <span className="text-slate-500">Authority:</span>
+                      <span className="text-slate-300 text-right truncate max-w-[200px]" title={selectedParcel.disputeInfo.authority}>
+                        {selectedParcel.disputeInfo.authority}
+                      </span>
+                    </div>
+                    {selectedParcel.disputeInfo.nextHearingDate && (
+                      <div className="flex justify-between text-amber-400">
+                        <span>Next Hearing:</span>
+                        <span className="font-bold">{selectedParcel.disputeInfo.nextHearingDate}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <p className="text-[11px] text-slate-300 font-sans">
+                    <span className="text-slate-500 font-mono">Parties: </span>
+                    {selectedParcel.disputeInfo.partiesInvolved}
+                  </p>
+
+                  {/* Hearing Timeline Mini-Feed */}
+                  {selectedParcel.disputeInfo.timeline.length > 0 && (
+                    <div className="pt-2 border-t border-twin-800 space-y-2">
+                      <span className="text-[10px] text-slate-400 font-bold block uppercase">
+                        Recent Court Orders ({selectedParcel.disputeInfo.timeline.length}):
+                      </span>
+                      {selectedParcel.disputeInfo.timeline.map((item, idx) => (
+                        <div key={idx} className="p-2 rounded bg-twin-900/60 border border-twin-800 space-y-1">
+                          <div className="flex justify-between text-[10px]">
+                            <span className="font-bold text-cyan-400">{item.stage}</span>
+                            <span className="text-slate-400">{item.date}</span>
+                          </div>
+                          <p className="text-[11px] text-slate-300 font-sans">{item.orderSummary}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="p-3 rounded-lg bg-emerald-950/30 border border-emerald-800/40 text-xs font-mono text-emerald-300 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Verified Clean Title • Zero Pending Encumbrances</span>
+                </div>
+              )}
+            </div>
+
+            {/* Compensation & Escrow Dossier Card */}
+            <div className="p-3.5 rounded-xl bg-twin-850 border border-twin-700/80 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10px] uppercase text-slate-400 font-semibold tracking-wider flex items-center gap-1.5">
+                  <DollarSign className="w-3.5 h-3.5 text-emerald-400" />
+                  Land Acquisition Compensation
+                </span>
+                <Badge
+                  variant={
+                    selectedParcel.compensationInfo?.status === 'Fully Disbursed'
+                      ? 'emerald'
+                      : selectedParcel.compensationInfo?.status === 'Escrow Held / Pending Dispute'
+                      ? 'amber'
+                      : 'slate'
+                  }
+                >
+                  {selectedParcel.compensationInfo?.status || 'N/A'}
+                </Badge>
+              </div>
+
+              {selectedParcel.compensationInfo && selectedParcel.compensationInfo.sanctionedAmountInr > 0 ? (
+                <div className="space-y-2 text-xs font-mono">
+                  <div className="p-2.5 rounded-lg bg-twin-950 border border-twin-800 space-y-1.5">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Scheme:</span>
+                      <span className="text-slate-200 truncate max-w-[220px]" title={selectedParcel.compensationInfo.schemeName}>
+                        {selectedParcel.compensationInfo.schemeName}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Sanctioned Award:</span>
+                      <span className="text-white font-bold">
+                        ₹{selectedParcel.compensationInfo.sanctionedAmountInr.toLocaleString('en-IN')}
+                      </span>
+                    </div>
+                    {selectedParcel.compensationInfo.pendingAmountInr > 0 && (
+                      <div className="flex justify-between text-amber-400">
+                        <span>Escrow Held:</span>
+                        <span className="font-bold">
+                          ₹{selectedParcel.compensationInfo.pendingAmountInr.toLocaleString('en-IN')} ({selectedParcel.compensationInfo.pendingDurationDays} days)
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">DBT Status:</span>
+                      <span className={selectedParcel.compensationInfo.dbtStatus === 'Credited' ? 'text-emerald-400' : 'text-amber-400'}>
+                        {selectedParcel.compensationInfo.dbtStatus}
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] text-slate-400 font-mono">
+                    CALA Body: {selectedParcel.compensationInfo.competentAuthority}
+                  </p>
+                </div>
+              ) : (
+                <div className="p-3 rounded-lg bg-twin-900/60 border border-twin-800 text-xs font-mono text-slate-400">
+                  No statutory land acquisition or compensation pending for this khasra.
+                </div>
+              )}
+
+              <button
+                onClick={() => setCurrentPage('disputes-compensation')}
+                className="w-full mt-2 py-2 rounded-lg bg-twin-800 hover:bg-twin-750 text-xs font-mono text-cyan-400 flex items-center justify-center gap-1.5 border border-twin-700 transition-colors"
+              >
+                <span>Open Module 8 Dossier</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
         )}

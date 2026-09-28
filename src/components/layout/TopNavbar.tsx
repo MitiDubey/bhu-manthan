@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Badge } from '../common/Badge';
+import { LoginModal } from '../auth/LoginModal';
 import {
   Search,
   Activity,
@@ -28,6 +29,7 @@ export const TopNavbar: React.FC = () => {
   } = useApp();
 
   const [searchFocused, setSearchFocused] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const pendingCount = changeEvents.filter(e => e.status === 'Pending Verification').length;
 
   // Filter parcels for search suggestions
@@ -165,36 +167,36 @@ export const TopNavbar: React.FC = () => {
           )}
         </button>
 
-        {/* User Role Switcher */}
+        {/* User Role Switcher & RBAC Session Trigger */}
         <div className="flex items-center gap-2 pl-2 border-l border-twin-700/60">
-          <div className="w-8 h-8 rounded-full bg-twin-800 border border-cyan-500/40 flex items-center justify-center text-cyan-400">
-            <UserCheck className="w-4 h-4" />
-          </div>
-          <div className="hidden sm:block text-left">
-            <select
-              value={userRole}
-              onChange={e => setUserRole(e.target.value)}
-              className="bg-transparent text-xs font-medium text-slate-200 cursor-pointer focus:outline-none focus:text-cyan-300 border-none p-0 pr-1"
-            >
-              <option value="District Magistrate / Collector" className="bg-twin-900 text-slate-100">
-                DM / Collector
-              </option>
-              <option value="Town Planning Officer" className="bg-twin-900 text-slate-100">
-                Town Planning Officer
-              </option>
-              <option value="GIS Analyst" className="bg-twin-900 text-slate-100">
-                GIS Analyst
-              </option>
-              <option value="Field Revenue Inspector" className="bg-twin-900 text-slate-100">
-                Field Revenue Inspector
-              </option>
-            </select>
-            <span className="text-[10px] font-mono text-emerald-400 block leading-none">
-              Authenticated
-            </span>
-          </div>
+          <button
+            onClick={() => setIsLoginModalOpen(true)}
+            className="flex items-center gap-2 group p-1.5 rounded-xl hover:bg-twin-850 transition-all border border-transparent hover:border-cyan-500/40 text-left"
+            title="Click to switch role or inspect RBAC permissions"
+          >
+            <div className="w-8 h-8 rounded-lg bg-twin-800 border border-cyan-500/40 group-hover:border-cyan-400 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-all shadow-glow-cyan">
+              <UserCheck className="w-4 h-4" />
+            </div>
+            <div className="hidden sm:block">
+              <div className="flex items-center gap-1 text-xs font-semibold text-slate-200 group-hover:text-cyan-300 transition-colors">
+                <span>{userRole.split('/')[0]}</span>
+                <span className="text-[10px] text-cyan-400 font-mono">▾</span>
+              </div>
+              <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1 leading-none mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>JWT Active</span>
+              </span>
+            </div>
+          </button>
         </div>
       </div>
+
+      {/* RBAC Login Modal */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
     </header>
   );
 };
+

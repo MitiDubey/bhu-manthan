@@ -1,4 +1,5 @@
 import { Parcel } from '../types';
+import { mockDisputeCompensationData } from './disputesCompensation';
 
 export const mockParcels: Parcel[] = [
   // 1. VARANASI - SARNATH PARCEL 1 (Agricultural Farmland)
@@ -675,6 +676,16 @@ export const mockParcels: Parcel[] = [
     ],
   },
 ];
+
+// Enrich parcels with Module 8 Dispute & Compensation and ULPIN records
+mockDisputeCompensationData.forEach(item => {
+  const p = mockParcels.find(x => x.id === item.parcelId);
+  if (p) {
+    p.ulpIn = item.ulpIn;
+    p.disputeInfo = item.dispute;
+    p.compensationInfo = item.compensation;
+  }
+});
 
 export const getLandUseColor = (landUse: string): string => {
   switch (landUse) {

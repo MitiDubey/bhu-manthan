@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Globe3D } from '../components/map/Globe3D';
+import { WorldGlobeMap } from '../components/map/WorldGlobeMap';
 import { Badge } from '../components/common/Badge';
 import {
   ArrowRight,
@@ -72,7 +72,7 @@ export const LandingPage: React.FC = () => {
 
         {/* 3D Rotating Living Earth Globe Simulation */}
         <div className="w-full max-w-5xl my-8">
-          <Globe3D />
+          <WorldGlobeMap heightClass="h-[540px] md:h-[620px]" />
         </div>
 
         {/* Call to Action Buttons */}

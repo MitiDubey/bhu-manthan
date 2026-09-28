@@ -15,6 +15,14 @@ import {
   Sparkles,
   MapPin,
   ExternalLink,
+  ShieldAlert,
+  Scale,
+  FileCheck2,
+  Lock,
+  X,
+  Search,
+  CheckCircle2,
+  Clock,
 } from 'lucide-react';
 
 export const LandUpdatesPage: React.FC = () => {
@@ -29,15 +37,35 @@ export const LandUpdatesPage: React.FC = () => {
 
   const [activeEventId, setActiveEventId] = useState<string>(changeEvents[0]?.id || '');
   const [sliderPos, setSliderPos] = useState<number>(50);
+  const [queueFilter, setQueueFilter] = useState<'All' | 'Authorized Reviewer' | 'Review Queue' | 'Monitoring / Batch Review'>('All');
+  
+  // Official Review Modal State
+  const [isSignoffModalOpen, setIsSignoffModalOpen] = useState(false);
+  const [reviewDecision, setReviewDecision] = useState<'Approve' | 'Reject'>('Approve');
+  const [orderNo, setOrderNo] = useState('VNS/REV/2025/MUT-092');
+  const [reviewerName, setReviewerName] = useState('Dr. S. K. Pathak (Tehsildar Sarnath)');
+  const [reviewNotes, setReviewNotes] = useState('Ground verification confirmed change against local Girdawari ledger.');
 
-  const activeEvent = changeEvents.find(e => e.id === activeEventId) || changeEvents[0];
+  const filteredEvents = changeEvents.filter(e => {
+    if (queueFilter === 'All') return true;
+    return e.reviewerQueue === queueFilter;
+  });
 
-  const handleApprove = (id: string) => {
-    approveChangeEvent(id);
+  const activeEvent =
+    changeEvents.find(e => e.id === activeEventId) || filteredEvents[0] || changeEvents[0];
+
+  const handleOpenSignoff = (decision: 'Approve' | 'Reject') => {
+    setReviewDecision(decision);
+    setIsSignoffModalOpen(true);
   };
 
-  const handleReject = (id: string) => {
-    rejectChangeEvent(id);
+  const handleConfirmSignoff = () => {
+    if (reviewDecision === 'Approve') {
+      approveChangeEvent(activeEvent.id);
+    } else {
+      rejectChangeEvent(activeEvent.id);
+    }
+    setIsSignoffModalOpen(false);
   };
 
   const handleDispatch = (id: string) => {
@@ -54,14 +82,14 @@ export const LandUpdatesPage: React.FC = () => {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-              Satellite Change Verification Queue
+              Satellite Change Verification & Prioritization Queue
             </h1>
             <Badge variant="rose" pulse>
               HUMAN-IN-THE-LOOP
             </Badge>
           </div>
           <p className="text-xs text-slate-400 mt-1 font-mono">
-            Review AI remote-sensing change detections before mutating official PostGIS digital twin records.
+            Module 3: Multi-tiered verification prioritization scoring before mutating official PostGIS digital twin records.
           </p>
         </div>
 
@@ -70,6 +98,64 @@ export const LandUpdatesPage: React.FC = () => {
             {changeEvents.filter(e => e.status === 'Pending Verification').length} PENDING REVIEW
           </Badge>
         </div>
+      </div>
+
+      {/* STATUTORY GOVERNANCE BANNER (Explicitly required by PDF Page 4 & 23) */}
+      <div className="p-3.5 rounded-xl bg-twin-900 border border-cyan-500/30 flex items-start gap-3 text-xs font-mono">
+        <Scale className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+        <div className="text-slate-300">
+          <span className="font-bold text-cyan-300">LEGAL GOVERNANCE PRINCIPLE: </span>
+          Remote-sensing observations serve strictly as corroborative physical evidence rather than autonomous legal authority.
+          Official records are never mutated automatically without authorized human reviewer sign-off under the UP Revenue Code.
+        </div>
+      </div>
+
+      {/* PRIORITIZATION QUEUE TABS */}
+      <div className="flex items-center gap-2 border-b border-twin-700/80 pb-2 overflow-x-auto select-none">
+        <button
+          onClick={() => setQueueFilter('All')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+            queueFilter === 'All'
+              ? 'bg-twin-800 text-white border border-twin-600 font-bold'
+              : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          All Detections ({changeEvents.length})
+        </button>
+
+        <button
+          onClick={() => setQueueFilter('Authorized Reviewer')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 transition-all ${
+            queueFilter === 'Authorized Reviewer'
+              ? 'bg-rose-500/20 text-rose-300 border border-rose-500/50 font-bold shadow-glow-rose'
+              : 'text-rose-400 hover:bg-twin-800'
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-rose-400 animate-pulse" />
+          <span>High Priority (Authorized Reviewer)</span>
+        </button>
+
+        <button
+          onClick={() => setQueueFilter('Review Queue')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 transition-all ${
+            queueFilter === 'Review Queue'
+              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 font-bold'
+              : 'text-amber-400 hover:bg-twin-800'
+          }`}
+        >
+          <span>Medium Priority (Review Queue)</span>
+        </button>
+
+        <button
+          onClick={() => setQueueFilter('Monitoring / Batch Review')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 transition-all ${
+            queueFilter === 'Monitoring / Batch Review'
+              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 font-bold'
+              : 'text-slate-400 hover:bg-twin-800'
+          }`}
+        >
+          <span>Low Priority (Batch Review)</span>
+        </button>
       </div>
 
       {/* MAIN TWO-COLUMN SPLIT: ACTIVE EVENT REVIEW ON LEFT & QUEUE LIST ON RIGHT */}
@@ -82,7 +168,15 @@ export const LandUpdatesPage: React.FC = () => {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-twin-800">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <Badge variant={activeEvent.status === 'Approved' ? 'emerald' : activeEvent.status === 'Rejected' ? 'slate' : 'rose'}>
+                    <Badge
+                      variant={
+                        activeEvent.status === 'Approved'
+                          ? 'emerald'
+                          : activeEvent.status === 'Rejected'
+                          ? 'slate'
+                          : 'rose'
+                      }
+                    >
                       {activeEvent.status}
                     </Badge>
                     <span className="font-mono text-xs text-slate-400">
@@ -107,17 +201,85 @@ export const LandUpdatesPage: React.FC = () => {
                 </button>
               </div>
 
+              {/* MODULE 3 PRIORITIZATION PIPELINE METRICS BREAKDOWN (PDF Page 3) */}
+              <div className="p-4 rounded-xl bg-twin-950 border border-twin-800 space-y-3 font-mono text-xs">
+                <div className="flex items-center justify-between border-b border-twin-800/80 pb-2">
+                  <span className="text-slate-300 font-bold flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-cyan-400" />
+                    PRIORITIZATION SCORING ENGINE
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-slate-400">Composite Score:</span>
+                    <span className="text-lg font-bold text-cyan-400">
+                      {activeEvent.priorityScore}/100
+                    </span>
+                    <Badge
+                      variant={
+                        activeEvent.priorityScore > 85
+                          ? 'rose'
+                          : activeEvent.priorityScore > 65
+                          ? 'amber'
+                          : 'slate'
+                      }
+                    >
+                      {activeEvent.reviewerQueue}
+                    </Badge>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+                  <div>
+                    <span className="text-slate-500 block text-[10px]">1. AI CONFIDENCE</span>
+                    <span className="text-white font-bold">{activeEvent.confidence}%</span>
+                  </div>
+                  <div>
+                    <span className="text-slate-500 block text-[10px]">2. CHANGE MAGNITUDE</span>
+                    <span
+                      className={`font-bold ${
+                        activeEvent.changeMagnitude === 'High'
+                          ? 'text-rose-400'
+                          : activeEvent.changeMagnitude === 'Medium'
+                          ? 'text-amber-400'
+                          : 'text-slate-300'
+                      }`}
+                    >
+                      {activeEvent.changeMagnitude}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-slate-500 block text-[10px]">3. DATA QUALITY</span>
+                    <span className="text-slate-300 font-medium">{activeEvent.dataQuality}</span>
+                  </div>
+                  <div>
+                    <span className="text-slate-500 block text-[10px]">4. GOVERNANCE IMPACT</span>
+                    <span
+                      className={`font-bold ${
+                        activeEvent.governanceRelevance === 'High'
+                          ? 'text-rose-400'
+                          : 'text-slate-300'
+                      }`}
+                    >
+                      {activeEvent.governanceRelevance}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
               {/* INTERACTIVE BEFORE / AFTER SLIDER */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs font-mono text-slate-400">
-                  <span className="text-emerald-400 font-semibold">◀ BASELINE: {activeEvent.previousClass}</span>
+                  <span className="text-emerald-400 font-semibold">
+                    ◀ BASELINE: {activeEvent.previousClass}
+                  </span>
                   <span className="text-slate-500">DRAG SLIDER TO REVEAL SATELLITE EVIDENCE</span>
-                  <span className="text-rose-400 font-semibold">DETECTED: {activeEvent.newDetectedClass} ▶</span>
+                  <span className="text-rose-400 font-semibold">
+                    DETECTED: {activeEvent.newDetectedClass} ▶
+                  </span>
                 </div>
 
                 {/* Slider Container */}
                 <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-twin-700 select-none">
-                  {/* After Image (Full background) */}
+                  {/* After Image */}
                   <img
                     src={activeEvent.evidenceUriAfter}
                     alt="Detected Current Imagery"
@@ -127,7 +289,7 @@ export const LandUpdatesPage: React.FC = () => {
                     2025 Cartosat-3 (High Res)
                   </div>
 
-                  {/* Before Image (Clipped overlay) */}
+                  {/* Before Image */}
                   <div
                     className="absolute inset-0 overflow-hidden border-r-2 border-cyan-400 shadow-[2px_0_10px_rgba(0,240,255,0.6)]"
                     style={{ width: `${sliderPos}%` }}
@@ -155,7 +317,7 @@ export const LandUpdatesPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Event Description & AI Confidence */}
+              {/* Event Description & Surveyor Details */}
               <div className="p-4 rounded-xl bg-twin-850 border border-twin-700/60 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs text-slate-400 font-bold uppercase tracking-wider">
@@ -172,6 +334,14 @@ export const LandUpdatesPage: React.FC = () => {
                     <span>Assigned Field Inspector: {activeEvent.assignedSurveyor}</span>
                   </div>
                 )}
+                {activeEvent.verifiedBy && (
+                  <div className="pt-2 text-xs font-mono text-emerald-400 flex items-center gap-1.5 border-t border-twin-800">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>
+                      Signed off by {activeEvent.verifiedBy} under Order #{activeEvent.verificationOrderNo}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* REVIEW DECISION ACTION BAR */}
@@ -181,7 +351,7 @@ export const LandUpdatesPage: React.FC = () => {
                 </span>
                 <div className="flex flex-wrap items-center gap-3">
                   <button
-                    onClick={() => handleApprove(activeEvent.id)}
+                    onClick={() => handleOpenSignoff('Approve')}
                     disabled={activeEvent.status === 'Approved'}
                     className={`px-4 py-2.5 rounded-xl font-bold text-xs font-mono flex items-center gap-2 transition-all ${
                       activeEvent.status === 'Approved'
@@ -198,16 +368,16 @@ export const LandUpdatesPage: React.FC = () => {
                     className="px-4 py-2.5 rounded-xl bg-twin-850 hover:bg-twin-800 border border-twin-700 text-slate-200 font-semibold text-xs font-mono flex items-center gap-2 transition-all"
                   >
                     <UserPlus className="w-4 h-4 text-cyan-400" />
-                    <span>DISPATCH GROUND TRUTH SURVEY</span>
+                    <span>DISPATCH FIELD SURVEY</span>
                   </button>
 
                   <button
-                    onClick={() => handleReject(activeEvent.id)}
+                    onClick={() => handleOpenSignoff('Reject')}
                     disabled={activeEvent.status === 'Rejected'}
-                    className="px-4 py-2.5 rounded-xl bg-rose-950/60 hover:bg-rose-900/60 border border-rose-800 text-rose-300 font-semibold text-xs font-mono flex items-center gap-2 transition-all ml-auto"
+                    className="px-4 py-2.5 rounded-xl bg-twin-850 hover:bg-rose-950/60 border border-twin-700 hover:border-rose-800 text-rose-400 font-semibold text-xs font-mono flex items-center gap-2 transition-all ml-auto"
                   >
                     <XCircle className="w-4 h-4" />
-                    <span>REJECT AS ANOMALY</span>
+                    <span>REJECT AS FALSE POSITIVE</span>
                   </button>
                 </div>
               </div>
@@ -215,56 +385,150 @@ export const LandUpdatesPage: React.FC = () => {
           )}
         </div>
 
-        {/* Right 1 Col: Queue List */}
-        <div className="space-y-4">
-          <div className="glass-panel p-4 rounded-xl border border-twin-700/80">
-            <h3 className="font-bold text-sm text-white mb-1 flex items-center gap-2">
-              <CheckSquare className="w-4 h-4 text-cyan-400" />
-              Incoming Detections Queue ({changeEvents.length})
-            </h3>
-            <p className="text-xs text-slate-400">Select an item below to inspect evidence</p>
+        {/* Right 1 Col: Filtered Queue List */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+            <span>DETECTIONS LIST ({filteredEvents.length})</span>
+            <span>CLICK TO INSPECT</span>
+          </div>
 
-            <div className="space-y-3 mt-4">
-              {changeEvents.map(event => {
-                const isSelected = activeEvent?.id === event.id;
-                return (
-                  <div
-                    key={event.id}
-                    onClick={() => setActiveEventId(event.id)}
-                    className={`p-3.5 rounded-xl border cursor-pointer transition-all ${
-                      isSelected
-                        ? 'bg-twin-800 border-cyan-400 shadow-glow-cyan'
-                        : 'bg-twin-850/80 hover:bg-twin-800 border-twin-700/60'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-mono text-xs font-bold text-white">{event.khasraNo}</span>
-                      <span
-                        className={`text-[10px] font-mono px-1.5 py-0.5 rounded font-medium ${
-                          event.status === 'Approved'
-                            ? 'bg-emerald-950 text-emerald-400 border border-emerald-800'
-                            : event.status === 'Field Survey Dispatched'
-                            ? 'bg-cyan-950 text-cyan-400 border border-cyan-800'
-                            : 'bg-rose-950 text-rose-400 border border-rose-800'
-                        }`}
-                      >
-                        {event.status}
-                      </span>
+          <div className="space-y-3 max-h-[calc(100vh-14rem)] overflow-y-auto pr-1">
+            {filteredEvents.map(event => {
+              const isSelected = event.id === activeEventId;
+              return (
+                <div
+                  key={event.id}
+                  onClick={() => setActiveEventId(event.id)}
+                  className={`p-4 rounded-xl border text-left cursor-pointer transition-all ${
+                    isSelected
+                      ? 'bg-twin-800/90 border-cyan-400 shadow-glow-cyan'
+                      : 'glass-panel border-twin-750 hover:bg-twin-800/50 hover:border-slate-600'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <Badge
+                          variant={
+                            event.status === 'Approved'
+                              ? 'emerald'
+                              : event.status === 'Rejected'
+                              ? 'slate'
+                              : event.priorityScore > 85
+                              ? 'rose'
+                              : 'amber'
+                          }
+                        >
+                          {event.status}
+                        </Badge>
+                        <span className="text-[10px] font-mono text-slate-400">
+                          {event.priorityScore} Pts
+                        </span>
+                      </div>
+                      <h4 className="font-bold text-sm text-white">{event.khasraNo}</h4>
+                      <p className="text-xs text-slate-300 font-mono">{event.parcelCode}</p>
                     </div>
 
-                    <p className="text-xs text-slate-300 line-clamp-1">{event.detectedType}</p>
-
-                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 mt-2 pt-2 border-t border-twin-800">
-                      <span>{event.detectionDate}</span>
-                      <span className="text-cyan-400">AI Conf: {event.confidence}%</span>
+                    <div className="text-right font-mono text-[10px] text-slate-400">
+                      <div>{event.detectionDate}</div>
+                      <div className="text-cyan-400 font-semibold mt-1">{event.confidence}% AI</div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+
+                  <p className="text-xs text-slate-300 mt-2 line-clamp-2 leading-relaxed">
+                    {event.detectedType}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
+
+      {/* FORMAL AUTHORIZED REVIEW SIGNOFF MODAL */}
+      {isSignoffModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+          <div className="relative w-full max-w-lg bg-twin-900 border border-twin-700/80 rounded-2xl shadow-2xl overflow-hidden space-y-4">
+            <div className="p-5 border-b border-twin-700/80 bg-twin-950 flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-base text-white flex items-center gap-2">
+                  <FileCheck2 className="w-5 h-5 text-cyan-400" />
+                  Official Revenue Adjudication Sign-Off
+                </h3>
+                <p className="text-xs text-slate-400 font-mono mt-0.5">
+                  Record Mutation Order • {activeEvent.khasraNo} ({activeEvent.parcelCode})
+                </p>
+              </div>
+              <button
+                onClick={() => setIsSignoffModalOpen(false)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-twin-800 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-5 space-y-4 text-xs font-mono">
+              <div className="space-y-1">
+                <label className="text-slate-400 uppercase">Review Decision:</label>
+                <div className="text-base font-bold text-cyan-400">
+                  {reviewDecision === 'Approve'
+                    ? 'Mutate Digital Twin Land Use to ' + activeEvent.newDetectedClass
+                    : 'Reject Change as Sensor Anomaly / False Positive'}
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-slate-400 uppercase">Statutory Order Reference Number:</label>
+                <input
+                  type="text"
+                  value={orderNo}
+                  onChange={e => setOrderNo(e.target.value)}
+                  className="w-full bg-twin-950 border border-twin-700 rounded-lg px-3 py-2 text-white font-mono"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-slate-400 uppercase">Authorized Reviewing Officer:</label>
+                <input
+                  type="text"
+                  value={reviewerName}
+                  onChange={e => setReviewerName(e.target.value)}
+                  className="w-full bg-twin-950 border border-twin-700 rounded-lg px-3 py-2 text-white font-mono"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-slate-400 uppercase">Official Resolution Notes:</label>
+                <textarea
+                  rows={3}
+                  value={reviewNotes}
+                  onChange={e => setReviewNotes(e.target.value)}
+                  className="w-full bg-twin-950 border border-twin-700 rounded-lg p-3 text-white font-sans text-xs"
+                />
+              </div>
+            </div>
+
+            <div className="p-4 border-t border-twin-700/80 bg-twin-950 flex items-center justify-end gap-3">
+              <button
+                onClick={() => setIsSignoffModalOpen(false)}
+                className="px-4 py-2 rounded-xl bg-twin-800 hover:bg-twin-750 text-slate-300 text-xs font-mono transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmSignoff}
+                className={`px-5 py-2 rounded-xl text-black font-bold text-xs font-mono shadow-lg transition-all ${
+                  reviewDecision === 'Approve'
+                    ? 'bg-emerald-400 hover:bg-emerald-300'
+                    : 'bg-rose-400 hover:bg-rose-300'
+                }`}
+              >
+                {reviewDecision === 'Approve' ? 'CONFIRM & EXECUTE MUTATION' : 'CONFIRM REJECTION'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

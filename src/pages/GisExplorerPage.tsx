@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { CadastralMap } from '../components/map/CadastralMap';
+import { WorldGlobeMap } from '../components/map/WorldGlobeMap';
 import { Badge } from '../components/common/Badge';
 import { getLandUseColor } from '../data/parcels';
 import {
@@ -228,8 +228,8 @@ export const GisExplorerPage: React.FC = () => {
       </div>
 
       {/* Main Map Viewport */}
-      <div className="flex-1 h-full relative">
-        <CadastralMap heightClass="h-full" showControls={true} />
+      <div className="flex-1 h-full relative bg-[#050816]">
+        <WorldGlobeMap heightClass="h-full rounded-none border-0" initialZoom={1.2} />
       </div>
     </div>
   );
