@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Database,
   Radio,
+  Scale,
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
@@ -31,6 +32,13 @@ export const Sidebar: React.FC = () => {
     { id: 'ai-research', label: 'AI Legal Research', icon: Cpu, badge: 'RAG' },
     { id: 'analytics', label: 'Geospatial Analytics', icon: BarChart3, badge: null },
     { id: 'knowledge-hub', label: 'Knowledge Hub', icon: BookOpen, badge: null },
+    {
+      id: 'disputes-compensation',
+      label: 'Disputes & Comp',
+      icon: Scale,
+      badge: 'NJDG',
+      badgeColor: 'amber',
+    },
     {
       id: 'land-updates',
       label: 'Land Updates Queue',

@@ -10,6 +10,7 @@ import { AiResearchPage } from './pages/AiResearchPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { KnowledgeHubPage } from './pages/KnowledgeHubPage';
 import { LandUpdatesPage } from './pages/LandUpdatesPage';
+import { DisputesCompensationPage } from './pages/DisputesCompensationPage';
 
 export const App: React.FC = () => {
   const { currentPage } = useApp();
@@ -32,6 +33,8 @@ export const App: React.FC = () => {
         return <AnalyticsPage />;
       case 'knowledge-hub':
         return <KnowledgeHubPage />;
+      case 'disputes-compensation':
+        return <DisputesCompensationPage />;
       case 'land-updates':
         return <LandUpdatesPage />;
       default:

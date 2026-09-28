@@ -1,0 +1,55 @@
+import { PolicyFeedbackRecord } from '../types';
+
+export const mockPolicyFeedbackRecords: PolicyFeedbackRecord[] = [
+  {
+    id: 'pf-001',
+    policyName: 'Varanasi Master Plan 2031: Peri-Urban Agricultural Buffer Zone Directive',
+    implementedYear: 2021,
+    evaluationYear: 2024,
+    geography: 'Varanasi Sadar & Sarnath Peri-Urban Belt',
+    predictedFarmlandLossHa: -180.0,
+    actualFarmlandLossHa: -245.5,
+    predictedUrbanGainHa: 210.0,
+    actualUrbanGainHa: 286.0,
+    predictedRevenueCr: 45.0,
+    actualRevenueCr: 62.4,
+    effectivenessScorePct: 76.8,
+    modelAdjustmentNotes:
+      'Underestimated commercial ribbon conversion pressure along Ring Road Phase 2 feeder arteries by 28%. Recommended adjustment: Increase transportation-accessibility coefficient from 1.35 to 1.72 in the cellular automata simulation kernel.',
+    observedEvidenceSource: 'Sentinel-2 MSI Level-2A Multi-temporal classification + UP Bhulekh 143 mutation ledger.',
+  },
+  {
+    id: 'pf-002',
+    policyName: 'River Varuna Riparian Conservation & 100m Floodplain Construction Moratorium',
+    implementedYear: 2022,
+    evaluationYear: 2024,
+    geography: 'Varuna Confluence & Flood Basin (14 Villages)',
+    predictedFarmlandLossHa: -25.0,
+    actualFarmlandLossHa: -28.2,
+    predictedUrbanGainHa: 12.0,
+    actualUrbanGainHa: 14.5,
+    predictedRevenueCr: 10.0,
+    actualRevenueCr: 11.2,
+    effectivenessScorePct: 91.4,
+    modelAdjustmentNotes:
+      'High policy fidelity. NGT strict enforcement and Lekhpal drone patrols successfully suppressed large-scale encroachment. Minor deviations noted in silt reclamation on the southern bend.',
+    observedEvidenceSource: 'Cartosat-3 2.5m Ortho-imagery & NDWI Water Boundary Index verified by Divisional Forest Office.',
+  },
+  {
+    id: 'pf-003',
+    policyName: 'Kashi Industrial Logistics SEZ: Controlled Agricultural Conversion Framework',
+    implementedYear: 2020,
+    evaluationYear: 2023,
+    geography: 'Babatpur Airport - NH-31 Logistics Hub Corridor',
+    predictedFarmlandLossHa: -420.0,
+    actualFarmlandLossHa: -385.0,
+    predictedUrbanGainHa: 390.0,
+    actualUrbanGainHa: 360.0,
+    predictedRevenueCr: 110.0,
+    actualRevenueCr: 98.5,
+    effectivenessScorePct: 88.2,
+    modelAdjustmentNotes:
+      'Slight lag in developer absorption rates due to delayed power substation commissioning. PostGIS spatial simulation accurately predicted the spatial centroid of logistics clusters.',
+    observedEvidenceSource: 'ISRO Bhuvan LULC 2022-23 layer & District Collectorate Industrial Land Records.',
+  },
+];

@@ -17,7 +17,14 @@ export const mockChangeEvents: ChangeEvent[] = [
     status: 'Pending Verification',
     description: 'Cartosat-3 2.5m imagery flagged erection of large metal pre-engineered structural frames and paved access apron. Khatauni records still show registered agricultural tenure with zero Sec 143 conversion clearance from SDM Sarnath.',
     flagSeverity: 'High',
-    assignedSurveyor: 'Shri Vinay Kumar (Kanungo Circle 2)'
+    assignedSurveyor: 'Shri Vinay Kumar (Kanungo Circle 2)',
+    // Module 3 Prioritization Pipeline
+    changeMagnitude: 'High',
+    dataQuality: 'High (Cartosat-3 2.5m)',
+    governanceRelevance: 'High',
+    priorityScore: 96,
+    reviewerQueue: 'Authorized Reviewer',
+    verificationOrderNo: 'VNS/DM/2025/REV-0941',
   },
   {
     id: 'chg-2025-082',
@@ -35,7 +42,14 @@ export const mockChangeEvents: ChangeEvent[] = [
     status: 'Field Survey Dispatched',
     description: 'NDWI index dropped by 0.38 at the southern riparian boundary. Earthmoving equipment and debris dumping detected adjacent to Kashi Municipal drain outlet.',
     flagSeverity: 'High',
-    assignedSurveyor: 'Smt. Ananya Singh (Revenue Inspector)'
+    assignedSurveyor: 'Smt. Ananya Singh (Revenue Inspector)',
+    // Module 3 Prioritization Pipeline
+    changeMagnitude: 'High',
+    dataQuality: 'High (Cartosat-3 2.5m)',
+    governanceRelevance: 'High',
+    priorityScore: 92,
+    reviewerQueue: 'Authorized Reviewer',
+    verificationOrderNo: 'NGT/PB/VNS-642-ACT',
   },
   {
     id: 'chg-2025-083',
@@ -53,7 +67,37 @@ export const mockChangeEvents: ChangeEvent[] = [
     status: 'Pending Verification',
     description: 'Cold storage warehouse roof detected via thermal IR and multispectral band reflectance. Parcel classified as agricultural in VDA Master Plan 2031.',
     flagSeverity: 'Medium',
-    assignedSurveyor: 'Shri R. P. Tiwari (Lekhpal)'
+    assignedSurveyor: 'Shri R. P. Tiwari (Lekhpal)',
+    // Module 3 Prioritization Pipeline
+    changeMagnitude: 'Medium',
+    dataQuality: 'Moderate (Sentinel-2 10m)',
+    governanceRelevance: 'Medium',
+    priorityScore: 78,
+    reviewerQueue: 'Review Queue',
+  },
+  {
+    id: 'chg-2025-085',
+    parcelId: 'parcel-003',
+    parcelCode: 'UP-VNS-SRN-0414',
+    khasraNo: 'Khasra 414/2',
+    location: 'Sarnath Heritage Zone Ring, Varanasi',
+    detectionDate: '2025-02-01',
+    detectedType: 'Vegetative Canopy Trimming along Boundary Hedge',
+    previousClass: 'Forest / Green Cover',
+    newDetectedClass: 'Forest / Green Cover',
+    confidence: 84.1,
+    evidenceUriBefore: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+    evidenceUriAfter: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
+    status: 'Pending Verification',
+    description: 'Minor seasonal NDVI delta (-0.08) flagged at the peripheral fence line. Likely customary pruning of agro-forestry border eucalyptus trees.',
+    flagSeverity: 'Low',
+    assignedSurveyor: 'Shri R. P. Tiwari (Lekhpal)',
+    // Module 3 Prioritization Pipeline
+    changeMagnitude: 'Low',
+    dataQuality: 'Moderate (Sentinel-2 10m)',
+    governanceRelevance: 'Low',
+    priorityScore: 54,
+    reviewerQueue: 'Monitoring / Batch Review',
   },
   {
     id: 'chg-2025-084',
@@ -70,6 +114,16 @@ export const mockChangeEvents: ChangeEvent[] = [
     evidenceUriAfter: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
     status: 'Approved',
     description: 'Post-monsoon Rabi crop planting (wheat and mustard) confirmed. Biomass progression matches seasonal historical cadence.',
-    flagSeverity: 'Low'
-  }
+    flagSeverity: 'Low',
+    // Module 3 Prioritization Pipeline
+    changeMagnitude: 'Low',
+    dataQuality: 'High (Cartosat-3 2.5m)',
+    governanceRelevance: 'Low',
+    priorityScore: 32,
+    reviewerQueue: 'Monitoring / Batch Review',
+    verificationOrderNo: 'UP-BHU-2025-MUT-019',
+    verifiedBy: 'Dr. S. K. Pathak (Tehsildar Sarnath)',
+    verifiedAt: '2025-01-22T14:30:00Z',
+    officialResolutionNotes: 'Verified against local Lekhpal Girdawari register. Genuine agricultural rabi cycle.',
+  },
 ];
